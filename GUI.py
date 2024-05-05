@@ -8,9 +8,19 @@ from matplotlib import pyplot as plt
 #     pixel=[[0]*28]*28
     
 def draw_on_canvas(event):
+    print(event.type)
+    global prevPoint
+    global currntPoint
     x=event.x
     y=event.y
-    c.create_oval((x-brush_size/2, y-brush_size/2, x+brush_size/2, y+brush_size/2), outline="white",fill="white")
+    currntPoint = [x,y]
+
+    if prevPoint != [0,0]: 
+        c.create_line(prevPoint[0], prevPoint[1],currntPoint[0],currntPoint[1], activewidth=100, fill="white")
+        #c.create_oval((x-brush_size/2, y-brush_size/2, x+brush_size/2, y+brush_size/2), outline="white",fill="white")
+    prevPoint=currntPoint
+    if(event.type=="5"):
+        prevPoint=[0,0]
 
 gui=Tk()
 gui.title("Visualizer")
@@ -28,8 +38,12 @@ gui.configure(background="pink")
 #         p.append(b)
 #     pixel.append(p)
 brush_size=4
-c=Canvas(gui, bg="black")
+prevPoint=[0,0]
+currntPoint=[0,0]
+#sistemare la dimensione
+c=Canvas(gui, bg="black", height=28, width=28, bd=100)
 c.bind('<B1-Motion>', draw_on_canvas)
+c.bind('<ButtonRelease-1>', draw_on_canvas)
 c.pack()
 #c.grid(row=0, column=0, rowspan=100, columnspan=100)
         
