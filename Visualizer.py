@@ -13,9 +13,8 @@ def n_to_hex(n):
         s = '#'+(n[2:])*3
     return s
 
-def visualize_number():
+def visualize_number(number=-1):
     print(e.get())
-    number=-1
     if(e.get().isnumeric() and int(e.get())<60000 and int(e.get())>-1):
         number=int(e.get())
         print("entra")
@@ -29,7 +28,7 @@ def visualize_number():
         for i in range (0,len(data[number])):
             if (i==0):
                 risultato = Label(v, text="Nella riga "+str(number)+" c'é il numero "+str(data[number][0]))
-                risultato.grid(row=4,column=30, columnspan=10)
+                risultato.grid(row=6,column=30, columnspan=10)
             else:
                 j=(i-1)//28
                 k=int((i-1)%28)
@@ -37,6 +36,20 @@ def visualize_number():
                 l.grid(row=j,column=k)
     print(number)
 
+def avanti():
+    if(e.get().isnumeric()):
+        number=int(e.get())+1
+        e.delete(0,END)
+        e.insert(0,number)
+        visualize_number(number)
+
+def indietro():
+    if(e.get().isnumeric()):
+        number=int(e.get())-1
+        e.delete(0,END)
+        e.insert(0,number)
+        visualize_number(number)
+    
 
 data = pd.read_csv('mnist_train.csv')
 data = np.array(data)
@@ -51,7 +64,11 @@ v.configure(background="pink")
 e= Entry(v)
 e.grid(row=0, column=30, rowspan=2, columnspan=5)
 b=Button(v, text='Visualize', command=visualize_number)
-b.grid(row=2, column=30, rowspan=2, columnspan=5)
+b.grid(row=4, column=30, rowspan=2, columnspan=5)
+a=Button(v, text=">", command=avanti, width=3)
+a.grid(row=2, column=33, rowspan=2, columnspan=1)
+i=Button(v, text="<", command=indietro, width=3)
+i.grid(row=2, column=32, rowspan=2, columnspan=1)
 visualize_number()
 
 

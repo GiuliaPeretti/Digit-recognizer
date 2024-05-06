@@ -15,13 +15,13 @@ def draw_on_canvas(event):
     y=event.y
     currentPoint = [x,y]
     #currentPoint = [x//28, y//28]
-    square =  [x//15, y//15 ]
+    square =  [x//15, y//15]
     print(x, y)
     print(x//15, y//15)
 
     if prevPoint != [0,0]: 
         #TODO: sistemare cooridnate matrice
-        pos=(y//15)*28+(x//15)%28
+        pos=square[1]*28+square[0]%28
         pixel[pos]=1
         c.create_rectangle( square[0]*15, square[1]*15, (square[0]+1)*15, (square[1]+1)*15, fill="white", outline="white")
         #c.create_line(prevPoint[0], prevPoint[1],currentPoint[0],currentPoint[1], activewidth=100, fill="white")
@@ -55,7 +55,6 @@ currentPoint=[0,0]
 pixel=[0]*784
 #sistemare la dimensione
 c=Canvas(gui, bg="black", height=420, width=420)
-#TODO: aggiungi griglia per vedere pixel
 for i in range (0,28):
     c.create_line(0, i*15, 420, i*15, fill="gray")
     c.create_line(i*15, 0, i*15, 420, fill="gray")
@@ -67,5 +66,6 @@ c.grid(row=0, column=0, rowspan=100, columnspan=100)
 #c.grid(row=0, column=0, rowspan=100, columnspan=100)
 answer=Entry(gui)
 answer.grid(row=0, column=100)
+
         
 gui.mainloop()
