@@ -15,19 +15,24 @@ def draw_on_canvas(event):
     y=event.y
     currentPoint = [x,y]
     #currentPoint = [x//28, y//28]
-    square =  [x//28, y//28]
+    square =  [x//15, y//15 ]
+    print(x, y)
+    print(x//15, y//15)
 
     if prevPoint != [0,0]: 
         #TODO: sistemare cooridnate matrice
-        pos=(y//28)*28+(x//28)%28
+        pos=(y//15)*28+(x//15)%28
         pixel[pos]=1
-        c.create_rectangle( square[0]*28, square[1]*28, (square[0]+1)*28, (square[1]+1)*28, fill="white", outline="white")
+        c.create_rectangle( square[0]*15, square[1]*15, (square[0]+1)*15, (square[1]+1)*15, fill="white", outline="white")
         #c.create_line(prevPoint[0], prevPoint[1],currentPoint[0],currentPoint[1], activewidth=100, fill="white")
         #c.create_oval((x-brush_size/2, y-brush_size/2, x+brush_size/2, y+brush_size/2), outline="white",fill="white")
     prevPoint=currentPoint
     if(event.type=="5"):
         prevPoint=[0,0]
-    print(pixel)
+    for i in range (0,28):
+        for j in range (0,28):
+            print(pixel[i*28+j], end="")
+        print()
 
 gui=Tk()
 gui.title("Visualizer")
@@ -52,8 +57,8 @@ pixel=[0]*784
 c=Canvas(gui, bg="black", height=420, width=420)
 #TODO: aggiungi griglia per vedere pixel
 for i in range (0,28):
-    c.create_line(0, i*28, 420, i*28, fill="gray")
-    c.create_line(i*28, 0, i*28, 420, fill="gray")
+    c.create_line(0, i*15, 420, i*15, fill="gray")
+    c.create_line(i*15, 0, i*15, 420, fill="gray")
 c.bind('<B1-Motion>', draw_on_canvas)
 #TODO: aggiungere anche se il pulsante viene solo premuto
 #TODO: aggiungere cancellare
