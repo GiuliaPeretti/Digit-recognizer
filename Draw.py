@@ -6,6 +6,13 @@ import pandas as pd
 # def reset():
 #     pixel=[[0]*28]*28
     
+def invia():
+    global pixel
+    a=answer.get();
+    if(a.isnumeric() and int(a)>=0 and int(a)<=9):
+        pixel
+
+
 def draw_on_canvas(event):
     print(event.type)
     global prevPoint

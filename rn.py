@@ -4,8 +4,6 @@ from matplotlib import pyplot as plt
 #np.set_printoptions(threshold=np.inf)
 
 data_train = pd.read_csv('mnist_train.csv')
-#print(data.head())
-
 data_train = np.array(data_train)  
 #np.random.shuffle(data)
 
