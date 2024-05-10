@@ -16,6 +16,8 @@ m_train, n_train = data_train.shape
 data_train=data_train
 y_train = data_train.T[0]
 x_train = data_train[1:n_train]
+x_train = x_train / 255.
+_,m_train = x_train.shape
 
 # print(m_train)
 # print(n_train)

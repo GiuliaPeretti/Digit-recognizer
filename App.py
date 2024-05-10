@@ -22,9 +22,9 @@ class App(tk.Tk):
         self.button.pack()
 
     def button_clicked(self):
+        vis = Visualizer()
         vis.mainloop()
 
 if __name__ == "__main__":
   app = App()
-  vis = Visualizer(app)
   app.mainloop()
