@@ -19,6 +19,7 @@ class Visualizer(ttk.Frame):
         # self.geometry("600x600")
         # self.resizable(False, False)
         # self.configure(background="pink")
+        # ttk.Label(self,background="pink", width=100).grid(row=0, column=30, rowspan=2, columnspan=2)
         self.pixel=[[ttk.Label]*28]*28
         self.entry = ttk.Entry(self)
         self.entry.grid(row=4, column=30, rowspan=2, columnspan=5)
@@ -29,7 +30,7 @@ class Visualizer(ttk.Frame):
         self.indietro=ttk.Button(self, text="<", command=self.vai_indietro, width=3)
         self.indietro.grid(row=6, column=32, rowspan=2, columnspan=1)
         self.visualize_number()
-        self.grid(row=1, column=0, columnspan=30)
+        self.grid(row=1, column=0)
 
 
 
@@ -83,11 +84,12 @@ class Visualizer(ttk.Frame):
             self.visualize_number()
 
     def reset(self):
-        self.entry.grid_remove()
-        self.Visualize.grid_remove()
-        self.avanti.grid_remove()
-        self.indietro.grid_remove()
-        self.risultato.grid_remove()
-        for i in range(0,28):
-            for j in range(0,28):
-                self.pixel[i][j].grid_remove()
+        # self.entry.grid_remove()
+        # self.Visualize.grid_remove()
+        # self.avanti.grid_remove()
+        # self.indietro.grid_remove()
+        # self.risultato.grid_remove()
+        # for i in range(0,28):
+        #     for j in range(0,28):
+        #         self.pixel[i][j].grid_remove()
+        self.grid_forget()

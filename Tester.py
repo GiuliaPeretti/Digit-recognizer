@@ -8,6 +8,7 @@ class Tester(ttk.Frame):
 
     prevPoint=[0,0]
     pixel=[0]*784
+    
 
     def __init__(self,parent):
         super().__init__(parent)
@@ -37,7 +38,7 @@ class Tester(ttk.Frame):
         #c.grid(row=0, column=0, rowspan=100, columnspan=100)
         self.answer=ttk.Entry(self)
         self.answer.grid(row=0, column=100)
-        self.grid(row=1, column=0, columnspan=30)
+        self.grid(row=1, column=0)
     
     def invia(self):
         global pixel
@@ -68,7 +69,7 @@ class Tester(ttk.Frame):
             print()
 
     def reset(self):
-        self.c.grid_forget()
-        self.answer.grid_forget()
+        self.grid_forget()
+
 
             

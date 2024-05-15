@@ -13,6 +13,7 @@ m_train, n_train = data_train.shape
 
 data_train=data_train.T
 y_train = data_train[0]
+#x_train -> tutto senza le soluzioni
 x_train = data_train[1:n_train]
 x_train = x_train / 255.
 _,m_train = x_train.shape
@@ -21,7 +22,7 @@ _,m_train = x_train.shape
 # print(n_train)
 # print(y_train)
 # print()
-# print(x_train)
+print(x_train)
 
 
 
@@ -33,7 +34,6 @@ def init_parameters():
     b2 = np.random.rand(10,1) - 0.5
     return(w1,w2,b1,b2)
     
-
 def relu(z):
     #np.maximum prende 2 array e li compara, per ogni elemento dei due array li compara e insersce il più alto in un nuovo array
     #in questo caso compariamo z con un array di solui 0, se il numero è minoore di 0 diventerà 0 altrimenti non cambierà
@@ -61,8 +61,7 @@ def one_hot(Y):
     #ogni colonna deve essere un esempio invece che ogni riga
     one_hot_Y = one_hot_Y.T
     return one_hot_Y
-
-    
+  
 def derivata_Relu(z):
     return (z>0)
 
@@ -104,7 +103,6 @@ def back(z1, a1, z2, a2, w2, x, y):
     db1 = 1/m_train * np.sum(dz1)
     return(dw1, db1, dw2, db2)
 
-
 def update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
     w1 = w1 - alpha*dw1
     b1 = b1 - alpha*db1
@@ -119,11 +117,10 @@ def get_accuracy(prediction, y):
     print(prediction, y)
     return(np.sum(prediction == y)/y.size)
    
-def non_ho_caputo(x, y, iterations, alpha):
+def train(x, y, iterations, alpha):
     w1, w2, b1, b2 = init_parameters()
     
     for i in range (iterations+1):
-
         z1, a1, z2, a2 = forward(w1, w2, b1, b2, x)
         dw1, db1, dw2, db2 = back(z1, a1, z2, a2, w2, x, y)
         w1, b1, w2, b2 = update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
@@ -131,12 +128,28 @@ def non_ho_caputo(x, y, iterations, alpha):
         if (i%100==0):
             print("Iterazione: ",i)
             print("Accuratezza: ", get_accuracy(get_prediction(a2), y))
+
+    return w1, b1, w2, b2
         
+def guess(pixel):
+    global w1
+    global b1
+    global w2
+    global b2
+    z1 = w1.dot(pixel) + b1
+    a1=relu(z1)
+    z2 = w2.dot(a1) + b2
+    a2=softmax(z2)
             
-    return(w1,b1,w2,b2)
+    return(a2)
 
 
-w1, b1, w2, b2 = non_ho_caputo(x_train, y_train, 4000, 0.122)
+w1, b1, w2, b2 = train(x_train, y_train, 100, 0.122)
+data_test = pd.read_csv('mnist_test.csv')
+data_test = np.array(data_test)  
+print(guess(data_test.T[0]))
+
+#guess()
 # y=[4,5,1,2]
 # print(y)
 # y=np.array(y)

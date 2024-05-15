@@ -14,10 +14,13 @@ data_train = np.array(data_train)
 m_train, n_train = data_train.shape
 
 data_train=data_train
-y_train = data_train.T[0]
-x_train = data_train[1:n_train]
-x_train = x_train / 255.
-_,m_train = x_train.shape
+#y_train = data_train.T[0]
+#x_train = data_train[1:n_train]
+#np.delete(data_train.T,0)
+data_train = data_train / 255.
+_,m_train = data_train.shape
+
+
 
 # print(m_train)
 # print(n_train)
@@ -83,6 +86,24 @@ def forward(w1, w2, b1, b2, x):
     print()
     print("w1: ")
     print(w1)
+    print()
+    print("z1: ")
+    print(z1)
+    print()
+    print("a1: ")
+    print(a1)
+    print()
+    print("B2: ")
+    print(b2)
+    print()
+    print("w2: ")
+    print(w2)
+    print()
+    print("z2: ")
+    print(z2)
+    print()
+    print("a2: ")
+    print(a2)
     print()
 
 

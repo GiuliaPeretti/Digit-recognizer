@@ -40,5 +40,12 @@ class ControlFrame(ttk.LabelFrame):
     def change_frame(self):
         print("frame cambiato")
         frame = self.frames[self.selected_value.get()]
-        #frame.reset()
-        frame.tkraise()
+        if(self.selected_value.get()==0):
+            self.frames[1].forget()
+            self.frames[0].tkraise()
+            self.frames[0].grid(row=1, column=0)
+        else:
+            self.frames[0].forget()
+            self.frames[1].tkraise()
+            self.frames[1].pack(row=1, column=0)
+
