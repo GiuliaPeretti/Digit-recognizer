@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from Visualizer import *
+from Tester import *
 from ControlFrame import *
 
 class App(tk.Tk):
@@ -15,5 +16,5 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
     app = App()
-    frame = Visualizer(app)
+    frame = ControlFrame(app)
     app.mainloop()

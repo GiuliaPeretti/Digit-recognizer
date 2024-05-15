@@ -2,9 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror
 from Visualizer import *
+from Tester import *
 
 class ControlFrame(ttk.LabelFrame):
     def __init__(self, container):
+        print("init control frame")
 
         super().__init__(container)
         self['text'] = 'Options'
@@ -26,16 +28,17 @@ class ControlFrame(ttk.LabelFrame):
             variable=self.selected_value,
             command=self.change_frame).grid(column=1, row=0, padx=5, pady=5)
 
-        self.grid(column=0, row=1, padx=5, pady=5, sticky='ew')
-
+        self.grid(column=0, row=0, padx=5, pady=5, sticky='ew', columnspan=30, rowspan=1)
+        print("menu visualizzato")
         # initialize frames
         self.frames = {}
         self.frames[0] = Visualizer(container)
-        #self.frames[1] = Tester(container)
+        self.frames[1] = Tester(container)
 
         self.change_frame()
 
     def change_frame(self):
+        print("frame cambiato")
         frame = self.frames[self.selected_value.get()]
-        frame.reset()
+        #frame.reset()
         frame.tkraise()

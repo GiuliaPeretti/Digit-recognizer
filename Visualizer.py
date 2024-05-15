@@ -2,12 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 import numpy as np 
+import time
 import pandas as pd
 
 class Visualizer(ttk.Frame):
     data = pd.read_csv('mnist_train.csv')
     data = np.array(data)
-    e=None
+    
     
     
     
@@ -18,16 +19,17 @@ class Visualizer(ttk.Frame):
         # self.geometry("600x600")
         # self.resizable(False, False)
         # self.configure(background="pink")
-        self.e = ttk.Entry(self)
-        self.e.grid(row=4, column=30, rowspan=2, columnspan=5)
-        b=ttk.Button(self, text='Visualize', command=self.visualize_number)
-        b.grid(row=8, column=30, rowspan=2, columnspan=5)
-        a=ttk.Button(self, text=">", command=self.avanti, width=3)
-        a.grid(row=6, column=33, rowspan=2, columnspan=1)
-        i=ttk.Button(self, text="<", command=self.indietro, width=3)
-        i.grid(row=6, column=32, rowspan=2, columnspan=1)
+        self.pixel=[[ttk.Label]*28]*28
+        self.entry = ttk.Entry(self)
+        self.entry.grid(row=4, column=30, rowspan=2, columnspan=5)
+        self.Visualize=ttk.Button(self, text='Visualize', command=self.visualize_number)
+        self.Visualize.grid(row=8, column=30, rowspan=2, columnspan=5)
+        self.avanti=ttk.Button(self, text=">", command=self.vai_avanti, width=3)
+        self.avanti.grid(row=6, column=33, rowspan=2, columnspan=1)
+        self.indietro=ttk.Button(self, text="<", command=self.vai_indietro, width=3)
+        self.indietro.grid(row=6, column=32, rowspan=2, columnspan=1)
         self.visualize_number()
-        self.pack()
+        self.grid(row=1, column=0, columnspan=30)
 
 
 
@@ -41,39 +43,51 @@ class Visualizer(ttk.Frame):
 
     def visualize_number(self):
         number=-1
-        print(self.e.get())
-        if(self.e.get().isnumeric() and int(self.e.get())<60000 and int(self.e.get())>-1):
-            number=int(self.e.get())
+        print(self.entry.get())
+        if(self.entry.get().isnumeric() and int(self.entry.get())<60000 and int(self.entry.get())>-1):
+            number=int(self.entry.get())
             print("entra")
         
         if (number==-1):
-            self.e.delete(0,'end')
+            self.entry.delete(0,'end')
             for i in range (0,28):
                 for j in range (0,28):
-                    l = ttk.Label(self, text="", background="black", width=2)
-                    l.grid(row=i+4,column=j)
+                    self.pixel[i][j] = ttk.Label(self, text="", background="black", width=2)
+                    self.pixel[i][j].grid(row=i,column=j)
         else:
             for i in range (0,len(self.data[number])):
                 if (i==0):
-                    risultato = ttk.Label(self, text="Nella riga "+str(number)+" c'é il numero "+str(self.data[number][0]))
-                    risultato.grid(row=10,column=31, columnspan=10)
+                    self.risultato = ttk.Label(self, text="Nella riga "+str(number)+" c'é il numero "+str(self.data[number][0]))
+                    self.risultato.grid(row=10,column=31, columnspan=10)
                 else:
-                    row=(i-1)//28+4
+                    row=(i-1)//28
                     col=int((i-1)%28)
-                    l = ttk.Label(self, text="", background=self.n_to_hex(self.data[number][i]), width=2)
-                    l.grid(row=row,column=col)
+                    self.pixel[row][col] = ttk.Label(self, text="", background=self.n_to_hex(self.data[number][i]), width=2)
+                    self.pixel[row][col].grid(row=row,column=col)
         print(number)
 
-    def avanti(self):
-        if(self.e.get().isnumeric()):
-            number=int(self.e.get())+1
-            self.e.delete(0,'end')
-            self.e.insert(0,number)
+
+    def vai_avanti(self):
+        if(self.entry.get().isnumeric()):
+            number=int(self.entry.get())+1
+            self.entry.delete(0,'end')
+            self.entry.insert(0,number)
+            self.visualize_number()
+        #self.reset()
+
+    def vai_indietro(self):
+        if(self.entry.get().isnumeric()):
+            number=int(self.entry.get())-1
+            self.entry.delete(0,'end')
+            self.entry.insert(0,number)
             self.visualize_number()
 
-    def indietro(self):
-        if(self.e.get().isnumeric()):
-            number=int(self.e.get())-1
-            self.e.delete(0,'end')
-            self.e.insert(0,number)
-            self.visualize_number()
+    def reset(self):
+        self.entry.grid_remove()
+        self.Visualize.grid_remove()
+        self.avanti.grid_remove()
+        self.indietro.grid_remove()
+        self.risultato.grid_remove()
+        for i in range(0,28):
+            for j in range(0,28):
+                self.pixel[i][j].grid_remove()
