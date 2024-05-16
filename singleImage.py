@@ -154,7 +154,7 @@ def iterate(data, answer, accuracy, iterations, alpha):
             dw1, db1, dw2, db2 = back(z1, a1, z2, a2, w2, x, y)
             w1, b1, w2, b2 = update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
 
-            update_accuracy(accuracy)
+            update_accuracy(get_prediction(a2), y, accuracy)
             if (j%10000==0):
                 print("Iterazione: ",i)
                 print("Accuratezza: ", get_accuracy(accuracy))
@@ -164,22 +164,22 @@ def iterate(data, answer, accuracy, iterations, alpha):
     return(w1,b1,w2,b2)
 
 
-def train():
-    data_train = pd.read_csv('mnist_train.csv')
-    data_train = np.array(data_train)  
+# def train():
+data_train = pd.read_csv('mnist_train.csv')
+data_train = np.array(data_train)  
 
-    #m -> numero di foto
-    #n -> numero di pixel +1
-    m_train, n_train = data_train.shape
+#m -> numero di foto
+#n -> numero di pixel +1
+m_train, n_train = data_train.shape
 
-    data_train=data_train.T
-    answer_train = data_train[0]
-    data_train = data_train[1:n_train].T
-    data_train = data_train / 255
+data_train=data_train.T
+answer_train = data_train[0]
+data_train = data_train[1:n_train].T
+data_train = data_train / 255
 
-    accuracy=[0,0]
-    w1, b1, w2, b2 = iterate(data_train, answer_train, accuracy, 500, 0.1)
-    return(w1, b1, w2, b2)
+accuracy=[0,0]
+w1, b1, w2, b2 = iterate(data_train, answer_train, accuracy, 500, 0.1)
+# return(w1, b1, w2, b2)
 
 def guess(w1, b1, w2, b2, pixel):
     z1 = w1.dot(pixel) + b1
