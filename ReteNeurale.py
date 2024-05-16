@@ -1,6 +1,5 @@
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-from matplotlib import pyplot as plt
 #np.set_printoptions(threshold=np.inf)
 
 data_train = pd.read_csv('mnist_train.csv')
@@ -145,9 +144,14 @@ def guess(pixel):
 
 
 w1, b1, w2, b2 = train(x_train, y_train, 100, 0.122)
-data_test = pd.read_csv('mnist_test.csv')
-data_test = np.array(data_test)  
-print(guess(data_test.T[0]))
+
+print("w1:")
+print(w1)
+y,x=w1.size()
+print("rows: ",y," col: ",x)
+# data_test = pd.read_csv('mnist_test.csv')
+# data_test = np.array(data_test)  
+# print(guess(data_test.T[0]))
 
 #guess()
 # y=[4,5,1,2]

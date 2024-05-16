@@ -1,24 +1,8 @@
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-from matplotlib import pyplot as plt
 #np.set_printoptions(threshold=np.inf)
 
-data_train = pd.read_csv('mnist_train.csv')
-#print(data.head())
 
-data_train = np.array(data_train)  
-#np.random.shuffle(data)
-
-#m -> numero di foto
-#n -> numero di pixel +1
-m_train, n_train = data_train.shape
-
-data_train=data_train
-#y_train = data_train.T[0]
-#x_train = data_train[1:n_train]
-#np.delete(data_train.T,0)
-data_train = data_train / 255.
-_,m_train = data_train.shape
 
 
 
@@ -32,7 +16,7 @@ _,m_train = data_train.shape
 
 
 def init_parameters():
-    w1 = np.random.rand(10, 784) - 0.5
+    w1 = np.random.rand(10, 783) - 0.5
     b1 = np.random.rand(10,) - 0.5
     w2 = np.random.rand(10, 10) - 0.5
     b2 = np.random.rand(10,) - 0.5
@@ -72,39 +56,34 @@ def derivata_Relu(z):
 
 def forward(w1, w2, b1, b2, x):
     z1 = w1.dot(x) + b1
-    # print(b1.shape)
-    # print(w1.dot(x).shape)
-    # print(w1.dot(x))
-    # print(b1)
-    # print(z1.shape)
     a1=relu(z1)
     z2 = w2.dot(a1) + b2
     a2=softmax(z2)
 
-    print("B1: ")
-    print(b1)
-    print()
-    print("w1: ")
-    print(w1)
-    print()
-    print("z1: ")
-    print(z1)
-    print()
-    print("a1: ")
-    print(a1)
-    print()
-    print("B2: ")
-    print(b2)
-    print()
-    print("w2: ")
-    print(w2)
-    print()
-    print("z2: ")
-    print(z2)
-    print()
-    print("a2: ")
-    print(a2)
-    print()
+    # print("B1: ")
+    # print(b1)
+    # print()
+    # print("w1: ")
+    # print(w1)
+    # print()
+    # print("z1: ")
+    # print(z1)
+    # print()
+    # print("a1: ")
+    # print(a1)
+    # print()
+    # print("B2: ")
+    # print(b2)
+    # print()
+    # print("w2: ")
+    # print(w2)
+    # print()
+    # print("z2: ")
+    # print(z2)
+    # print()
+    # print("a2: ")
+    # print(a2)
+    # print()
 
 
     # c=0
@@ -153,58 +132,58 @@ def update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha):
 def get_prediction(a2):
     return(np.argmax(a2, 0))
 
-def get_accuracy(prediction, y):
-    print(prediction, y)
-    return(np.sum(prediction == y)/y.size)
+def get_accuracy(accuracy):
+    return(accuracy[0]/accuracy[1])
+
+def update_accuracy(prediction, y, accuracy):
+    accuracy[1]=+1
+    if(prediction==y):
+        accuracy[0]=+1
    
-def non_ho_caputo(data, iterations, alpha):
+def iterate(data, answer, accuracy, iterations, alpha):
     w1, w2, b1, b2 = init_parameters()
 
     for i in range (iterations):
+        for j in range (m_train):
+            x=data[j][1:]
+            y=answer[j]
+            # print("y:",y)
+            # print("x:",x)
 
-        x=data[i][1:]
-        y=data[i][0]
-        z1, a1, z2, a2 = forward(w1, w2, b1, b2, x)
-        dw1, db1, dw2, db2 = back(z1, a1, z2, a2, w2, x, y)
-        w1, b1, w2, b2 = update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
+            z1, a1, z2, a2 = forward(w1, w2, b1, b2, x)
+            dw1, db1, dw2, db2 = back(z1, a1, z2, a2, w2, x, y)
+            w1, b1, w2, b2 = update_par(w1, b1, w2, b2, dw1, db1, dw2, db2, alpha)
 
-        #if (i%10==0):
-        print("Iterazione: ",i)
-        print("Accuratezza: ", get_accuracy(get_prediction(a2), y))
+            update_accuracy(accuracy)
+            if (j%10000==0):
+                print("Iterazione: ",i)
+                print("Accuratezza: ", get_accuracy(accuracy))
+            #print("Accuratezza: ", get_accuracy(get_prediction(a2), y))
         
             
     return(w1,b1,w2,b2)
 
 
-w1, b1, w2, b2 = non_ho_caputo(data_train, 10, 0.1)
+def train():
+    data_train = pd.read_csv('mnist_train.csv')
+    data_train = np.array(data_train)  
 
-# print(y_train)
-# print(data_train[0])
-# print(one_hot(5))
+    #m -> numero di foto
+    #n -> numero di pixel +1
+    m_train, n_train = data_train.shape
 
-# a=np.array([[1,2,3]])
-# print(a.transpose())
-# y=[4,5,1,2]
-# print(y)
-# y=np.array(y)
-# print(one_hot(y))
+    data_train=data_train.T
+    answer_train = data_train[0]
+    data_train = data_train[1:n_train].T
+    data_train = data_train / 255
 
-# p=np.isnan(data_train)
-# for i in data_train:
-#     p=np.isnan(i)
-#     for j in p:
-#         if j==True:
-#             print("nan")
-#             break;
-#     if j==True:
-#         break;
+    accuracy=[0,0]
+    w1, b1, w2, b2 = iterate(data_train, answer_train, accuracy, 500, 0.1)
+    return(w1, b1, w2, b2)
 
-
-
-#softmax genera dei nan
-#sum(np.exp(z)) mi sa che da qualche inf
-
-# a = np.random.rand(5, 5) - 0.5
-# print(a)
-# print(softmax(a))
-
+def guess(w1, b1, w2, b2, pixel):
+    z1 = w1.dot(pixel) + b1
+    a1=relu(z1)
+    z2 = w2.dot(a1) + b2
+    a2=softmax(z2)
+    return(np.argmax(a2, 0))

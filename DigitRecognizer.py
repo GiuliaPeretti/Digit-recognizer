@@ -11,10 +11,10 @@ class App(tk.Tk):
         super().__init__()
 
         # configure the root window
-        self.title('My App')
+        self.title('Digit recognizer')
         self.geometry('600x600')
 
 if __name__ == "__main__":
     app = App()
-    frame = Tester(app)
+    frame = Visualizer(app)
     app.mainloop()
