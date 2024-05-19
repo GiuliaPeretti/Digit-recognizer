@@ -59,15 +59,15 @@ def forward(w1, w2, b1, b2, x):
     return(z1, a1, z2, a2)
 
 def back(z1, a1, z2, a2, w2, x, y):
+    #dato che il risultato mi viene restituito in una matrice 10xm con valori da 0 a 1
+    #in cui la posizione in cui si trova il valore più alto corrispone al numero riconosciuto
+    #one_hot_y trasforma la soluzione nella stesso modo
     one_hot_y=one_hot(y)
 
     #errori per il secondo layer
     dz2 = a2 - one_hot_y
-
     dw2 = 1/m_train * dz2.dot(a1.T)
-
-    db2 = 1/m_train * np.sum(dz2) #(dz2, 2)
-    
+    db2 = 1/m_train * np.sum(dz2)
     #errori per il primo layer
     #prendo i valori dell'ultimo layer e devo "undo" l'applicazione dei weight 
     #poi devo disfare anche la funzione di attivazione
@@ -112,45 +112,52 @@ def guess(w1, b1, w2, b2, pixel, answer):
     a2=softmax(z2)
     return(get_prediction(a2))
 
+def test():
+    data_test = pd.read_csv('mnist_test.csv')
+    data_test = np.array(data_test)  
+    m_test, n_test = data_test.shape
+
+    data_test=data_test.T
+    y_test = data_test[0]
+    x_test = data_test[1:n_test]
+    x_test = x_test / 255.
+    _,m_test = x_test.shape
+
+    z1 = w1.dot(x_test) + b1
+    a1=relu(z1)
+    z2 = w2.dot(a1) + b2
+    a2=softmax(z2)
+    print("Accuratezza: ", get_accuracy(get_prediction(a2), y_test))
 
 
 w1, b1, w2, b2 = train(x_train, y_train, 500, 0.122)
+print("test")
+test()
 
 
-#TODO: finisci sta roba
-data_test = pd.read_csv('mnist_test.csv')
-data_train = np.array(data_train)  
-#np.random.shuffle(data)
 
-#m -> numero di foto
-#n -> numero di pixel +1
-m_train, n_train = data_train.shape
+    
 
-data_train=data_train.T
-y_train = data_train[0]
-#x_train -> tutto senza le soluzioni
-x_train = data_train[1:n_train]
-x_train = x_train / 255.
-_,m_train = x_train.shape
-print()
-print("guess0")
-guess(w1, b1, w2, b2, x_train.T[0], y_train[0])
 
-print()
-print("guess1")
-guess(w1, b1, w2, b2, x_train.T[1], y_train[0])
+# print()
+# print("guess0")
+# guess(w1, b1, w2, b2, x_train.T[0], y_train[0])
 
-print()
-print("guess2")
-guess(w1, b1, w2, b2, x_train.T[2], y_train[0])
+# print()
+# print("guess1")
+# guess(w1, b1, w2, b2, x_train.T[1], y_train[0])
 
-print()
-print("guess3")
-guess(w1, b1, w2, b2, x_train.T[3], y_train[0])
+# print()
+# print("guess2")
+# guess(w1, b1, w2, b2, x_train.T[2], y_train[0])
 
-print()
-print("guess4")
-guess(w1, b1, w2, b2, x_train.T[4], y_train[0])
+# print()
+# print("guess3")
+# guess(w1, b1, w2, b2, x_train.T[3], y_train[0])
+
+# print()
+# print("guess4")
+# guess(w1, b1, w2, b2, x_train.T[4], y_train[0])
 # data_test = pd.read_csv('mnist_test.csv')
 # data_test = np.array(data_test)  
 # print(guess(data_test.T[0]))
