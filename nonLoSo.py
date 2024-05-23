@@ -4,12 +4,15 @@ import pandas as pd
 data_train = pd.read_csv('mnist_train.csv')
 data_train = np.array(data_train) 
 
-for i in data_train:
-    for j in i:
-        if(j>=127):
-            j=1;
+rows,cols=data_train.shape
+print(rows,cols)
+
+for i in range(0, rows):
+    for j in range (0, cols):
+        if(data_train[i][j]>=127 and j!=0):
+            data_train[i][j]=1;
         else:
-            j=0;
+            data_train[i][j]=0;
 
 data_train = pd.DataFrame(data_train)
-data_train = pd.DataFrame.to_csv('blackAndWhite.csv')
+data_train.to_csv('blackAndWhite.csv')

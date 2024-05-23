@@ -6,7 +6,7 @@ import time
 import pandas as pd
 
 class Visualizer(ttk.Frame):
-    data = pd.read_csv('mnist_train.csv')
+    data = pd.read_csv('blackAndWhite.csv')
     data = np.array(data)
     
     

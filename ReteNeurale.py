@@ -129,10 +129,48 @@ def test():
     a2=softmax(z2)
     print("Accuratezza: ", get_accuracy(get_prediction(a2), y_test))
 
+def save_in_file(w1,b1,w2,b2):
+    df = pd.DataFrame(w1)
+    df.to_csv("w1.csv")
+    df = pd.DataFrame(b1)
+    df.to_csv("b1.csv")
+    df = pd.DataFrame(w2)
+    df.to_csv("w2.csv")
+    df = pd.DataFrame(b2)
+    df.to_csv("b2.csv")
 
-w1, b1, w2, b2 = train(x_train, y_train, 500, 0.122)
+def get_from_file():
+    w1=pd.read_csv('w1.csv')
+    w1 = np.array(w1)  
+    w1=w1.T[1:]
+    w1=w1.T
+
+    b1=pd.read_csv('b1.csv')
+    b1 = np.array(b1)  
+    b1=b1.T[1:]
+    b1=b1.T
+
+    w2=pd.read_csv('w2.csv')
+    w2 = np.array(w2)  
+    w2=w2.T[1:]
+    w2=w2.T
+
+    b2=pd.read_csv('b2.csv')
+    b2 = np.array(b2)  
+    b2=b2.T[1:]
+    b2=b2.T
+
+    return(w1,b1,w2,b2)
+
+
+w1, b1, w2, b2 = train(x_train, y_train, 100, 0.122)
 print("test")
 test()
+save_in_file(w1, b1, w2, b2)
+w1, b1, w2, b2=get_from_file()
+print("test")
+test()
+
 
 
 
