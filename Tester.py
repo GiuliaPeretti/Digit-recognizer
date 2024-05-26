@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo
 import numpy as np 
 import pandas as pd
+from ReteNeurale import *
 
 class Tester(ttk.Frame):
 
@@ -38,13 +39,20 @@ class Tester(ttk.Frame):
         #c.grid(row=0, column=0, rowspan=100, columnspan=100)
         self.answer=ttk.Entry(self)
         self.answer.grid(row=0, column=100)
+        test=ttk.Button(self, text="Test", command=self.invia)
+        test.grid(row=3, column=100)
+        self.result=ttk.Label(self, text="")
+        self.result.grid(row=5, column=100)
         self.grid(row=1, column=0)
-    
+
     def invia(self):
         global pixel
-        a=self.answer.get();
+        a=self.answer.get()
         if(a.isnumeric() and int(a)>=0 and int(a)<=9):
-            pixel
+            res=guess(self.pixel)
+            self.result.config(text="Il risultato e: "+str(res))
+        else:
+            self.result.config(text="Il carattere inserito non e corretto, deve essere compreso tra 0 e 9")
 
     def draw_on_canvas(self,event): 
         print(event.type)
