@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 #np.set_printoptions(threshold=np.inf)
 
-data_train = pd.read_csv('mnist_train.csv')
+data_train = pd.read_csv('blackAndWhite.csv')
 data_train = np.array(data_train)  
 #np.random.shuffle(data)
 
@@ -12,8 +12,8 @@ m_train, n_train = data_train.shape
 data_train=data_train.T
 y_train = data_train[0]
 #x_train -> tutto senza le soluzioni
-x_train = data_train[1:n_train]
-x_train = x_train / 255
+x_train = data_train[1:]
+#x_train = x_train / 255
 #_,m_train = x_train.shape
 
 
@@ -104,9 +104,14 @@ def train(x, y, iterations, lr):
     return w1, b1, w2, b2
 
 def guess(pixel):
-    pixel = np.array(pixel[1:])
+    # pixel = np.array(pixel[1:])
+    pixel = np.array(pixel)
     pixel=pixel.reshape((-1,1))
     w1, b1, w2, b2 = get_from_file()
+    print("w1: ",w1.shape)
+    print("b1: ",b1.shape)
+    print("w2: ",w2.shape)
+    print("b2: ",b2.shape)
     z1 = w1.dot(pixel) + b1
     a1=relu(z1)
     z2 = w2.dot(a1) + b2
@@ -122,6 +127,7 @@ def test():
     data_test = pd.read_csv('mnist_test.csv')
     data_test = np.array(data_test)  
     #m_test, n_test = data_test.shape
+    w1, b1, w2, b2 = get_from_file()
 
     data_test=data_test.T
     y_test = data_test[0]
@@ -136,41 +142,52 @@ def test():
 
 def save_in_file(w1,b1,w2,b2):
     df = pd.DataFrame(w1)
-    df.to_csv("w1.csv", header=False, index=False)
+    df.to_csv("w1.csv", index=False)
     df = pd.DataFrame(b1)
-    df.to_csv("b1.csv", header=False, index=False)
+    df.to_csv("b1.csv", index=False)
     df = pd.DataFrame(w2)
-    df.to_csv("w2.csv", header=False, index=False)
+    df.to_csv("w2.csv", index=False)
     df = pd.DataFrame(b2)
-    df.to_csv("b2.csv", header=False, index=False)
+    df.to_csv("b2.csv", index=False)
 
 def get_from_file():
     w1=pd.read_csv('w1.csv')
     w1 = np.array(w1)  
-    w1=w1.T[1:]
-    w1=w1.T
 
     b1=pd.read_csv('b1.csv')
     b1 = np.array(b1)  
-    b1=b1.T[1:]
-    b1=b1.T
 
     w2=pd.read_csv('w2.csv')
     w2 = np.array(w2)  
-    w2=w2.T[1:]
-    w2=w2.T
 
     b2=pd.read_csv('b2.csv')
     b2 = np.array(b2)  
-    b2=b2.T[1:]
-    b2=b2.T
 
     return(w1,b1,w2,b2)
 
 
-w1, b1, w2, b2 = train(x_train, y_train, 500, 0.122)
-save_in_file(w1, b1, w2, b2)
-test()
+# w1, b1, w2, b2 = train(x_train, y_train, 500, 0.25)
+# # print("w1: ",w1.shape)
+# # print("b1: ",b1.shape)
+# # print("w2: ",w2.shape)
+# # print("b2: ",b2.shape)
+# save_in_file(w1, b1, w2, b2)
+# w1, b1, w2, b2=get_from_file()
+# print("w1: ",w1.shape)
+# print("b1: ",b1.shape)
+# print("w2: ",w2.shape)
+# print("b2: ",b2.shape)
+# test()
+
+# data_test = pd.read_csv('mnist_test.csv')
+# data_test = np.array(data_test)  
+
+# # # data_test=data_test.T
+# # # y_test = data_test[0]
+# # # x_test = data_test[1:]
+# # # x_test = x_test / 255
+
+# print(guess(data_test[0]))
 
     
 

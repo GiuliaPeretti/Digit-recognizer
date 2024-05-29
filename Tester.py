@@ -67,7 +67,7 @@ class Tester(ttk.Frame):
             #TODO: sistemare cooridnate matrice
             pos=square[1]*28+square[0]%28
             self.pixel[pos]=1
-            self.c.create_rectangle( square[0]*15, square[1]*15, (square[0]+1)*15, (square[1]+1)*15, fill="white", outline="white")
+            self.c.create_rectangle( square[0]*15, square[1]*15, (square[0]+2)*15, (square[1]+2)*15, fill="white", outline="white")
         self.prevPoint=currentPoint
         if(event.type=="5"):
             self.prevPoint=[0,0]
