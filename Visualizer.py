@@ -6,8 +6,7 @@ import time
 import pandas as pd
 
 class Visualizer(ttk.Frame):
-    data = pd.read_csv('mnist_train.csv')
-    data = np.array(data)
+
     
     
     
@@ -15,6 +14,9 @@ class Visualizer(ttk.Frame):
     def __init__(self, app):
 
         super().__init__(app)
+
+        data = pd.read_csv('mnist_train.csv')
+        data = np.array(data)
         self.pixel=[[ttk.Label]*28]*28
         self.entry = ttk.Entry(self)
         self.entry.grid(row=4, column=30, rowspan=2, columnspan=5)
