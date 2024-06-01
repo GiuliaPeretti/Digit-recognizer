@@ -11,7 +11,6 @@ class ControlFrame(ttk.LabelFrame):
         super().__init__(container)
         self['text'] = 'Options'
 
-        # radio buttons
         self.selected_value = tk.IntVar()
 
         ttk.Radiobutton(

@@ -9,8 +9,6 @@ class App(tk.Tk):
 
     def __init__(self):
         super().__init__()
-
-        # configure the root window
         self.title('Digit recognizer')
         self.geometry('600x600')
 

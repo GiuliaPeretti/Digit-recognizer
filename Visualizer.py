@@ -15,11 +15,6 @@ class Visualizer(ttk.Frame):
     def __init__(self, app):
 
         super().__init__(app)
-        # self.title("Visualizer")
-        # self.geometry("600x600")
-        # self.resizable(False, False)
-        # self.configure(background="pink")
-        # ttk.Label(self,background="pink", width=100).grid(row=0, column=30, rowspan=2, columnspan=2)
         self.pixel=[[ttk.Label]*28]*28
         self.entry = ttk.Entry(self)
         self.entry.grid(row=4, column=30, rowspan=2, columnspan=5)
@@ -74,7 +69,6 @@ class Visualizer(ttk.Frame):
             self.entry.delete(0,'end')
             self.entry.insert(0,number)
             self.visualize_number()
-        #self.reset()
 
     def vai_indietro(self):
         if(self.entry.get().isnumeric()):
@@ -84,12 +78,4 @@ class Visualizer(ttk.Frame):
             self.visualize_number()
 
     def reset(self):
-        # self.entry.grid_remove()
-        # self.Visualize.grid_remove()
-        # self.avanti.grid_remove()
-        # self.indietro.grid_remove()
-        # self.risultato.grid_remove()
-        # for i in range(0,28):
-        #     for j in range(0,28):
-        #         self.pixel[i][j].grid_remove()
         self.grid_forget()

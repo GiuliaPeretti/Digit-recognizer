@@ -12,20 +12,6 @@ class Tester(ttk.Frame):
 
     def __init__(self,parent):
         super().__init__(parent)
-
-        #self.configure(background="pink")
-
-        # pixel=[]
-        # row,col=28,28
-        # for i in range (0,row):
-        #     p=[]
-        #     for j in range (0,col):
-        #         b = Button(gui, text=str(i)+"x"+str(j), width=5)
-        #         b.grid(row=i,column=j)
-        #         p.append(b)
-        #     pixel.append(p)
-
-        #sistemare la dimensione
         self.c=tk.Canvas(self, bg="black", height=420, width=420)
         for i in range (0,28):
             self.c.create_line(0, i*15, 420, i*15, fill="gray")
@@ -35,16 +21,29 @@ class Tester(ttk.Frame):
         #TODO: aggiungere cancellare
         self.c.bind('<ButtonRelease-1>', self.draw_on_canvas)
         self.c.grid(row=0, column=0, rowspan=100, columnspan=100)
+<<<<<<< Updated upstream
         #c.grid(row=0, column=0, rowspan=100, columnspan=100)
         self.answer=ttk.Entry(self)
         self.answer.grid(row=0, column=100)
+=======
+        test=ttk.Button(self, text="Test", command=self.invia)
+        test.grid(row=3, column=100)
+        self.result=ttk.Label(self, text="")
+        self.result.grid(row=5, column=100)
+>>>>>>> Stashed changes
         self.grid(row=1, column=0)
     
     def invia(self):
         global pixel
+<<<<<<< Updated upstream
         a=self.answer.get();
         if(a.isnumeric() and int(a)>=0 and int(a)<=9):
             pixel
+=======
+        res=guess(self.pixel)
+        self.result.config(text="Il risultato e: "+str(res))
+
+>>>>>>> Stashed changes
 
     def draw_on_canvas(self,event): 
         print(event.type)
@@ -56,7 +55,6 @@ class Tester(ttk.Frame):
         print(x//15, y//15)
 
         if self.prevPoint != [0,0]: 
-            #TODO: sistemare cooridnate matrice
             pos=square[1]*28+square[0]%28
             self.pixel[pos]=1
             self.c.create_rectangle( square[0]*15, square[1]*15, (square[0]+1)*15, (square[1]+1)*15, fill="white", outline="white")
